@@ -1,0 +1,56 @@
+body {
+    background: rgb(204,204,204);
+    font-family: "Times New Roman";
+}
+page {
+  background: white;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 0.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+page[size="A4"] {
+  width: 21cm;
+  height: 29.7cm;
+}
+.header{
+    margin-left: 50px;
+    margin-right: 50px;
+    align-content: center;
+    text-align: center;
+}
+.bottom-text{
+    border-bottom: double;
+    border-bottom-color: black;
+}
+.content{
+    margin-left: 90px;
+}
+h4{
+    font-weight: bold;
+}
+h6{
+    font-size: 15px;
+    font-weight: bold;
+}
+div .child-content{
+    padding-left: 16px;
+}
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+    table-layout: fixed;
+    width: 600px;
+    margin-left: 16px;
+}
+th,td {
+    border: 1px solid black;
+}
+th {
+    text-align: center;
+}
+@media print {
+  body, page {
+    margin: 0;
+  }
+}

@@ -1,0 +1,56 @@
+{% extends request.user.is_superuser|yesno:"base.html,staff_base.html" %}
+
+    {% block content %}
+        <div id="page-wrapper">
+        <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Ubah Akun Pengguna</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-10">
+                                    <form role="form" method="POST" action="{% url 'ubahAkunPengguna' %}">
+                                        {% csrf_token %}
+                                        {% for i in id %}
+                                            <div class="form-group">
+                                                <div class="col-lg-8">
+                                                <label>Username</label>
+                                                <input class="form-control" type="text" name="username" value="{{ i.username }}" required>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                <label>Nama Pengguna</label>
+                                                <input class="form-control" type="text" name="nama_pengguna" value="{{ i.first_name }}" required>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                <label>Tipe Pengguna</label>
+                                                    {% if i.is_superuser is True %}
+                                                        <input class="form-control" type="text" name="tipe_pengguna" value="admin" readonly>
+                                                    {% else %}
+                                                        <input class="form-control" type="text" name="tipe_pengguna" value="staff" readonly>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <label>Password Pengguna</label>
+                                                    <input class="form-control" type="password" name="password_pengguna" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-10">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <button type="reset" class="btn btn-warning">Reset</button>
+                                            </div>
+                                        {% endfor %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

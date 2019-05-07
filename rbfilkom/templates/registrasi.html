@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+
+        <!-- Custom CSS for this page only -->
+        {% load static %}
+            <style>
+                body {
+                    font-family: 'Roboto', sans-serif;
+                    background-color: #e6f0f7;
+                }
+                h3{
+                    text-align: center;
+                }
+                .form-signin-heading {
+                    font-weight: 300;
+                    text-align: center;
+                }
+
+                .spacer {
+                    border: none;
+                    margin: 14px;
+                }
+
+                .btn-primary {
+                    background-color: orange;
+                }
+
+                .btn-primary:hover {
+                    background-color: orange;
+                }
+
+            </style>
+
+        <!-- Bootstrap -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    {% block title %}
+    <title>Login Page</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <!-- Fully Responsive Login Page-->
+		<div class="container">
+            <div class="col-lg-offset-3">
+            <div class="col-lg-7">
+                <form class="form-signin" action="" method="post">
+              {% csrf_token %}
+                    <h3><img src="{% static 'img/filkom.png' %}"></h3>
+                    <h2 class="form-signin-heading"></h2>
+                    <input type="text" name="nim" class="form-control" placeholder="NIM" required autofocus>
+                    <!--Spacer-->
+                    <hr class="spacer">
+                    <!--Spacer-->
+                    <input type="email" name="email" class="form-control" placeholder="E-Mail" required>
+                    <!--Spacer-->
+                    <hr class="spacer">
+                    <!--Spacer-->
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                      <!--Spacer-->
+                    <hr class="spacer">
+                    <!--Spacer-->
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+                <hr class="spacer">
+                <div class="col-lg-offset-3">
+                    <div class="col-lg-6" style="margin-left: 50px">
+                        <a href="{% url 'login' %}">Sign in here</a>
+                    </div>
+                </div>
+                <hr class="spacer">
+                {% if i %}
+                    {% for i in messages %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+                        {{ i }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% if message %}
+                    {% for j in message %}
+                        <script>
+                            alert({{ message|safe }});
+                        </script>
+                    {% endfor %}
+                    <div class="alert alert-success">
+                        <a class="close" href="#" data-dismiss="alert">×</a>
+                        {{ message|safe }}
+                    </div>
+                {% endif %}
+          </form>
+            </div>
+            </div>
+        </div> <!-- /container -->
+
+{% endblock %}
+</body>
+
+{% load static %}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</html>

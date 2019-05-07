@@ -1,0 +1,120 @@
+{% load widget_tweaks %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Tambah Koleksi Baru</h4>
+  </div>
+  <div class="modal-body">
+        <div class="form-group">
+            <label>Kode Eksamplar</label>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-lg-2">
+                            <label>JK</label>
+                            <select class="form-control" name="jenis_kol">
+                                {% for jk in get_tk %}
+                                    <option value="{{ jk.nama_jenis_koleksi }}">{{ jk.nama_jenis_koleksi }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>SK</label>
+                            <select class="form-control" name="sumber_kol">
+                                {% for sk in kode_sumber %}
+                                    <option value="{{ sk.nama_sumber_koleksi }}">{{ sk.nama_sumber_koleksi }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-lg-2">
+                            <label>Tahun</label>
+                            <input class="form-control" type="text" maxlength="4" name="tahun_inv">
+                        </div>
+                        <div class="col-lg-2">
+                            <label>No. Urut</label>
+                            <input class="form-control" type="text" name="no_inv">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>ISBN/ISSN</label>
+              <input class="form-control" type="text" name="isbn_issn" required>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>No. Panggil</label>
+              <input class="form-control" type="text" name="no_panggil" required>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>Judul Koleksi</label>
+              <input class="form-control" type="text" name="judul_koleksi" required>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>Pengarang</label>
+              <textarea class="form-control" name="pengarang" form="koleksiForm" required></textarea>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>Penerbit</label>
+              <input class="form-control" type="text" name="penerbit" required>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>Tahun Terbit</label>
+              <input class="form-control" type="text" name="tahun_terbit" required>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>Tempat Terbit</label><input class="form-control" type="text" name="tempat_terbit" required>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>Topik Koleksi</label>
+              <select class="form-control" name="topik_koleksi">
+                  {% for tk in kode_topik %}
+                      <option value="{{ tk.nama_topik_koleksi }}">{{ tk.nama_topik_koleksi }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>Bahasa</label>
+              <select class="form-control" name="bahasa_koleksi" required>
+                  {% for bk in kode_bahasa %}
+                      <option name="">{{ bk.nama_bahasa_koleksi }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+      </div>
+      <div class="form-group">
+          <div class="col-lg-8">
+              <label>Gambar Sampul</label>
+              <input type="file" name="file_gambar">
+          </div>
+      </div>
+      {% for error in field.errors %}
+          <p class="help-block">{{ error }}</p>
+      {% endfor %}
+  </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Tambah koleksi</button>
+    </div>
+</form>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    <title>Barkode</title>
+    {% endblock %}
+    {% load static %}
+    <style>
+        .div1 {
+            width: 8cm;
+            height: 5cm;
+            border: 1px solid black;
+        }
+        .img1{
+            width: 6cm;
+            height: 2cm;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+{% block content %}
+    <div class="col-lg-12">
+    {% for i in img %}
+        <div class="div1">
+            <p style="text-align: center;"><b>Ruang Baca FILKOM UB</b></p>
+            <p style="text-align: center; font-size: small;">{{ i.judul }}</p>
+            <img src="/Code39{{ i }}.png" class="img1">
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+</body>
+</html>

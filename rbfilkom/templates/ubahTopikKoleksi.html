@@ -1,0 +1,44 @@
+{% extends request.user.is_superuser|yesno:"base.html,staff_base.html" %}
+
+    {% block content %}
+        <div id="page-wrapper">
+        <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Ubah Topik Koleksi</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-10">
+                                    <form role="form" action="{% url 'ubahTopikKoleksi' %}" method="post">
+                                        {% csrf_token %}
+                                        {% for i in kode_topik %}
+                                        <div class="form-group">
+                                            <div class="col-lg-8">
+                                            <label>Kode Topik Koleksi</label>
+                                            <input class="form-control" type="text" name="kode_topik_koleksi" value="{{ i.kode_topik }}" required>
+                                            </div>
+                                            <div class="col-lg-8">
+                                            <label>Nama Topik Koleksi</label>
+                                            <input class="form-control" type="text" name="nama_topik_koleksi" value="{{ i.nama_topik_koleksi }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="reset" class="btn btn-warning">Reset</button>
+                                        </div>
+                                        {% endfor %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

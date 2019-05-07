@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+    {% block content %}
+        <div id="page-wrapper">
+        <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Tambah Transaksi Peminjaman</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-10">
+                                    <form role="form" method="post" action="{% url 'tambahPeminjaman' %}">
+                                        {% csrf_token %}
+                                        {% for i in nim %}
+                                            <input type="hidden" name="form-type" value="pinjam_forms" />
+                                            <div class="form-group">
+                                                <div class="col-lg-8">
+                                                <label>NIM Mahasiswa</label>
+                                                <input class="form-control" type="text" name="nim_mhs" id="nim_mhs" value="{{ i.nim }}" readonly>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                <label>Nama Mahasiswa</label>
+                                                <input class="form-control" type="text" value="{{ i.nama_mahasiswa }}" name="nama_mhs" id="nama_mhs" readonly>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    {% for j in kode_eksamplar %}
+                                                    <label>Kode Eksamplar</label>
+                                                    <input class="form-control" type="text" value="{{ j.kode_eksamplar }}" name="kode_eksamplar" id="kode_eksamplar" readonly>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                    <label>Judul Koleksi</label>
+                                                    <input class="form-control" type="text" value="{{ j.judul }}" name="judul_koleksi" name="judul_koleksi"readonly>
+                                                    </div>
+                                                    {% endfor %}
+                                                <div class="col-lg-8">
+                                                <label>Tanggal Pinjam</label>
+                                                <input class="form-control" type="date" name="tgl_pinjam" id="tgl_pinjam">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-10">
+                                                <button type="submit" name="submit_btn" class="btn btn-primary">Submit</button>
+                                                <button type="reset" class="btn btn-warning">Reset</button>
+                                            </div>
+                                        {% endfor %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

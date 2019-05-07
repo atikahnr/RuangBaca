@@ -1,0 +1,94 @@
+{% extends "mahasiswa_base.html" %}
+
+        {% load static %}
+        <!-- DataTables CSS -->
+        <link href="{% static 'vendor/datatables-plugins/dataTables.bootstrap.css' %}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+        {% load static %}
+        <!-- DataTables Responsive CSS -->
+        <link href="{% static 'vendor/datatables-responsive/dataTables.responsive.css' %}" rel="stylesheet">
+
+        {% block content %}
+             <div id="page-wrapper">
+                <div class="container-fluid">
+                                <div class="row">
+                <div class="col-lg-12">
+                    <h5></h5>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-info">
+                        <div class="panel-heading panel-info" style="text-align: center;">
+                            <span style="color: black">
+                            <b>DATA SKRIPSI</b>
+                            </span>
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-info table-hover" id="skripsi-tabel">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <p>
+                                                <b>{{ judul_skripsi }}</b>
+                                                {% if status_skripsi == "Selesai" %}
+                                                    <i class="fa fa-check" style="color: lawngreen"></i><i>{{ status_skripsi }}</i>
+                                                {% elif status_skripsi == "Gagal" %}
+                                                    <i class="fa fa-close" style="color: red"></i><i>{{ status_skripsi }}</i>
+                                                {% elif status_skripsi == "Dalam proses pengerjaan" %}
+                                                    <i class="fa fa-minus" style="color: dodgerblue"></i><i>{{ status_skripsi }}</i>
+                                                {% endif %}
+                                            </p>
+                                            <span style="color: #585858;">
+                                                <i class="fa fa-user" style="color: #337ab7;"></i>  {{ nama_mahasiswa }}
+                                                NIM. {{ nim }}
+                                                <br>
+                                                <span class="badge">
+                                                {{ jurusan }}
+                                                </span>
+                                                <span class="badge">
+                                                {{ prodi }}
+                                                </span>
+                                                <span class="badge">
+                                                {{ keminatan }}
+                                                </span>
+                                            </span>
+                                            <p>
+                                                <span style="font-size: smaller;">
+                                                    Pembimbing <br>
+                                                    {{ dosen_1}} (i)
+                                                    {% if dosen_2 %}, {{ dosen_2 }} (ii)
+                                                    {% endif %}
+                                                        </span>
+                                                    </p>
+                                        </td>
+                                    </tr>
+                                    {% if abstrak %}
+                                    <tr>
+                                        <td style="text-align: justify">
+                                            <p style="text-align: center;">
+                                            <b>ABSTRAK</b>
+                                            </p>
+                                                {{ abstrak|safe|escape }}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+                </div>
+            <!-- /.container-fluid -->
+            </div>
+        {% endblock %}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Laporan Koleksi dan Transaksi Ruang Baca FILKOM UB</title>
+    {% load static %}
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    {% load static %}
+    <!-- Custom Fonts -->
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    {% load static %}
+    <!-- jQuery -->
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    {% load static %}
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    {% load static %}
+    <!-- Custom CSS -->
+    <link href="{% static 'style/laporan.css' %}" rel="stylesheet" type="text/css">
+    {% load static %}
+    <link href="https://www.gstatic.com/charts/loader.js" rel="script">
+    {% load static %}
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.DataTable();
+            data.addColumn('string', 'Kode_Eksamplar');
+            data.addColumn('number', 'Jumlah')
+            data.addRows( {{ kode_eksamplar|safe }} );
+
+            var options = {'title':'My Average Day', 'width':550, 'height':400};
+            var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+            chart.draw(data, options)
+    </script>
+</head>
+<body>
+    {% block content %}
+        <page size="A4">
+            <div class="header">
+                <h4>
+                LAPORAN KEANGGOTAAN, KOLEKSI,
+                DAN TRANSAKSI
+                </h4>
+                <h4>
+                    RUANG BACA FAKULTAS ILMU KOMPUTER
+                    </h4>
+                <h4 class="bottom-text">
+                    UNIVERSITAS BRAWIJAYA
+                </h4>
+            </div>
+            <div class="content">
+                <h6>
+                    I. Keanggotaan
+                </h6>
+                <table id="anggota-table" class="table-striped">
+                    <thead>
+                    <th> Angkatan </th>
+                    <th> Jumlah Anggota Per-Angkatan</th>
+                    </thead>
+                    <tbody>
+                    {% for i in anggota %}
+                    <tr>
+                        <td style="text-align: center">{{ i.Angkatan }}</td>
+                        <td style="text-align: center">{{ i.c }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr style="text-align: center">
+                        <td> Total </td>
+                        <td>{{ angkatan_total }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h6>
+                    II. Koleksi
+                </h6>
+                <div class="child-content">
+                    <h6>
+                    Laporan Koleksi Berdasarkan Jenis Koleksi
+                </h6>
+                <table id="anggota-table" style="width: 584px">
+                    <thead>
+                    <th style="width: 35px"> No. </th>
+                    <th> Jenis Koleksi </th>
+                    <th> Jumlah Judul</th>
+                    <th> Jumlah Satuan</th>
+                    </thead>
+                    <tbody>
+                        {% for j in jenis_koleksi %}
+                    <tr>
+                        <td style="text-align: center">{{ forloop.counter }}</td>
+                        <td>{{ j.jenis_koleksi__nama_jenis_koleksi }}</td>
+                        <td style="text-align: center">{{ j.a }}</td>
+                        <td style="text-align: center">{{ j.c }}</td>
+                    </tr>
+                        {% endfor %}
+                    <tr style="text-align: center">
+                        <td>  </td>
+                        <td>Total</td>
+                        <td> {{ jum_koleksi }}</td>
+                        <td>{{ jum_koleksi }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div class="child-content">
+                    <h6>
+                    Laporan Koleksi Berdasarkan Topik Koleksi
+                </h6>
+                <table id="anggota-table" style="width: 584px" class="table-striped">
+                    <thead>
+                    <th style="width: 35px"> No. </th>
+                    <th> Topik Koleksi </th>
+                    <th> Jumlah Judul</th>
+                    <th> Jumlah Satuan</th>
+                    </thead>
+                    <tbody>
+                    {% for i in jenis_topik %}
+                    <tr>
+                        <td style="text-align: center">{{ forloop.counter }}</td>
+                        <td> {{ i.topik_koleksi__nama_topik_koleksi }}</td>
+                        <td style="text-align: center">{{ i.a }}</td>
+                        <td style="text-align: center">{{ i.c }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr style="text-align: center">
+                        <td>  </td>
+                        <td>Total</td>
+                        <td style="text-align: center">{{ jum_topik }}</td>
+                        <td style="text-align: center">{{ jum_koleksi }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+                <h6>
+                    III. Transaksi
+                </h6>
+                <table id="transaksi-table">
+                    <thead>
+                        <th style="width: 35px">No. </th>
+                        <th>Jenis Transaksi</th>
+                        <th>Jumlah Transaksi</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td style="text-align: center">1</td>
+                        <td> Peminjaman</td>
+                        <td style="text-align: center">{{ jum_peminjaman }}</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">2</td>
+                        <td> Pemesanan</td>
+                        <td style="text-align: center">{{  jum_pemesanan }}</td>
+                    </tr>
+                        <td colspan="2" style="text-align: center">Total</td>
+                        <td style="text-align: center">{{ total_transaksi }}</td>
+                    </tbody>
+                </table>
+                <div class="child-content" style="page-break-before: auto">
+                    <h6>
+                    Laporan Peminjaman Berdasarkan Judul Koleksi
+                </h6>
+                <table id="anggota-table" style="width: 584px">
+                    <thead>
+                    <th style="width: 35px"> No. </th>
+                    <th> Judul Koleksi </th>
+                    <th> Jumlah Peminjaman</th>
+                    </thead>
+                    <tbody>
+                    {% for i in transaksi_judul %}
+                    <tr>
+                        <td style="text-align: center">{{ forloop.counter }}</td>
+                        <td> {{ i.kode_eksamplar__judul }}</td>
+                        <td style="text-align: center">{{ i.c }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr style="text-align: center">
+                        <td colspan="2"> Total </td>
+                        <td style="text-align: center"> {{ jum_peminjaman }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                    <h6>
+                    Laporan Peminjaman Berdasarkan Topik Koleksi
+                </h6>
+                <table id="anggota-table" style="width: 584px">
+                    <thead>
+                    <th style="width: 35px"> No. </th>
+                    <th> Nama Topik </th>
+                    <th> Jumlah Peminjaman</th>
+                    </thead>
+                    <tbody>
+                    {% for transaksi in transaksi_topik %}
+                    <tr>
+                        <td style="text-align: center; ">{{ forloop.counter }}</td>
+                        <td> {{ transaksi.kode_eksamplar__topik_koleksi__nama_topik_koleksi }}</td>
+                        <td style="text-align: center">{{ transaksi.c }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr style="text-align: center">
+                        <td colspan="2"> Total </td>
+                        <td>{{ jum_peminjaman }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </page>
+    {% endblock %}
+</body>
+</html>

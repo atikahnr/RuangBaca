@@ -1,0 +1,102 @@
+{% extends "mahasiswa_base.html" %}
+
+        {% load static %}
+        <!-- DataTables CSS -->
+        <link href="{% static 'vendor/datatables-plugins/dataTables.bootstrap.css' %}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+        {% load static %}
+        <!-- DataTables Responsive CSS -->
+        <link href="{% static 'vendor/datatables-responsive/dataTables.responsive.css' %}" rel="stylesheet">
+
+        {% block content %}
+             <div id="page-wrapper">
+                <div class="container-fluid">
+                                <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Daftar Skripsi Mahasiswa FILKOM UB</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="skripsi-tabel" style="background-color: #C0DDED">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align: center">Skripsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   {% for i in id %}
+                                            <tr>
+                                                <td>
+                                                    <form role="form" action="{% url 'abstrak' i.id %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="id" value="{{ i.id }}"/>
+                                                        <button type="submit" style="background:none!important;
+                                    color:black;
+                                    border:none;
+                                    padding:0!important;
+                                    font: inherit;
+                                    text-align: left;
+                                    cursor: pointer;" class="btn-success"><b>{{ i.judul_skripsi }}</b></button>
+                                                    </form>
+                                                    <span>
+                                                         {% if i.status_skripsi == "Selesai" %}
+                                                        <i class="fa fa-check" style="color: lawngreen"></i>{{ i.status_skripsi }}
+                                                {% elif i.status_skripsi == "Gagal" %}
+                                                        <i class="fa fa-close" style="color: red"></i>{{ i.status_skripsi }}
+                                                {% elif i.status_skripsi == "Dalam proses pengerjaan" %}
+                                                        <i class="fa fa-minus" style="color: dodgerblue"></i>{{ i.status_skripsi }}
+                                                {% endif %}
+                                                    </span>
+                                                    <p>
+                                                        <span>
+                                                            <i class="fa fa-user"></i>
+                                                            <span style="font-family: Arial">{{ i.nama_mahasiswa }}</span>
+                                                            <span class="badge badge-dark"> {{ i.jurusan }}</span>
+                                                            <span class="badge"> {{ i.keminatan }}</span>
+                                                        </span>
+                                                    </p>
+                                                    <p>
+                                                        <span style="font-size: smaller;">
+                                                            Pembimbing <br>
+                                                            {{ i.dosen_1}} (i)
+                                                            {% if i.dosen_2 %}, {{ i.dosen_2 }} (ii)
+                                                            {% endif %}
+                                                        </span>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </form>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+                </div>
+            <!-- /.container-fluid -->
+            </div>
+            {% load static %}
+<script>
+    $(document).ready(function() {
+        $('#skripsi-tabel').DataTable({
+            responsive: true
+        });
+    });
+    </script>
+        {% endblock %}
+
+

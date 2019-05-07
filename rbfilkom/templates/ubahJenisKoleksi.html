@@ -1,0 +1,44 @@
+{% extends request.user.is_superuser|yesno:"base.html,staff_base.html" %}
+
+    {% block content %}
+        <div id="page-wrapper">
+        <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Ubah Jenis Koleksi</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-10">
+                                    <form role="form" action="{% url 'ubahJenisKoleksi' %}" method="post">
+                                        {% csrf_token %}
+                                        {% for i in kode_koleksi %}
+                                        <div class="form-group">
+                                            <div class="col-lg-8">
+                                            <label>Kode Jenis Koleksi</label>
+                                            <input class="form-control" type="text" name="kode_jenis_koleksi" value="{{ i.kode_koleksi }}" required>
+                                            </div>
+                                            <div class="col-lg-8">
+                                            <label>Nama Jenis Koleksi</label>
+                                            <input class="form-control" type="text" name="nama_jenis_koleksi" value="{{ i.nama_jenis_koleksi }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="reset" class="btn btn-warning">Reset</button>
+                                        </div>
+                                        {% endfor %}
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

@@ -1,0 +1,67 @@
+{% extends request.user.is_superuser|yesno:"base.html,staff_base.html" %}
+
+    {% block content %}
+        <div id="page-wrapper">
+        <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Tambah Akun Pengguna</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-10">
+                                    <form role="form" method="POST" action=".">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <div class="col-lg-8">
+                                            <label>Username</label>
+                                            <input class="form-control" type="text" name="username" required>
+                                            </div>
+                                            <div class="col-lg-8">
+                                            <label>Nama Pengguna</label>
+                                            <input class="form-control" type="text" name="nama_pengguna" required>
+                                            </div>
+                                            <div class="col-lg-8">
+                                            <label>Tipe Pengguna</label>
+                                            <select class="form-control" name="tipe_pengguna" required>
+                                                {% for i in id %}
+                                                    {% if i.name != "mahasiswa" %}
+                                                        <option value="{{ i.name }}">{{ i.name }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                            </div>
+                                            <div class="col-lg-8">
+                                                <label>Password Pengguna</label>
+                                                <input class="form-control" type="password" name="password_pengguna" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-10">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="reset" class="btn btn-warning">Reset</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        <br>
+                        {% if messages %}
+                        <ul class="list-unstyled messages">
+                        {% for message in messages %}
+                          <div class="alert alert-danger">
+                                <a class="close" href="#" data-dismiss="alert">×</a>
+                          {{ message }}
+                          </div>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

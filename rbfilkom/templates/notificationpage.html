@@ -1,0 +1,132 @@
+{% extends 'mahasiswa_base.html' %}
+
+    {% block content %}
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                        <h1>Notifikasi</h1>
+                        <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <table width="100%" class="table table-hover" id="notif-table">
+                            <thead>
+                            </thead>
+                            <tbody>
+                            <tr>
+                            {% for n in id %}
+                            <td>
+                                {% if n.kode_pinjam is not None %}
+                                    {% if n.message == "Beri rating pelayanan Ruang Baca FILKOM" %}
+                                <p>
+                                    Transaksi peminjaman {{ n.kode_pinjam.kode_pinjam }},
+                                    <button style="background:none!important;
+                                    color:cornflowerblue;
+                                    border:none;
+                                    padding:0!important;
+                                    font: inherit;
+                                    text-align: left;
+                                    cursor: pointer;" type="button" class="alert-link"
+                                            data-toggle="modal" data-target="#myModal"
+                                            id="button">{{ n.message }}
+                                </button>
+                                </p>
+                                        {% else %}
+                                        <p>
+                                    Transaksi peminjaman {{ n.kode_pinjam.kode_pinjam }},
+                                            {{ n.message }}
+                                </p>
+                                        {% endif %}
+                                {% elif n.kode_pesan is not None %}
+                                <p>
+                                    <form role="form" action="{% url 'feedback' %}" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                        <input type="hidden" name="form-type" value="notifikasi_forms" />
+                                        <input type="hidden" name="kode_pesan" value="{{ n.kode_pesan.kode_pesan }}" />
+                                    Transaksi pemesanan {{ n.kode_pinjam.kode_pinjam }}, <button style="background:none!important;
+                                    color:-webkit-link;
+                                    border:none;
+                                    padding:0!important;
+                                    font: inherit;
+                                    text-align: left;
+                                    cursor: pointer;"
+                                                                                                 type="submit">{{ n.message }}</button>
+                                    </form>
+                                </p>
+                                {% endif %}
+                                {% if n.viewed is False %}
+                                    <span class="pull-right text-muted small">
+                                        <a href="/rbfilkom/notificationread/{{ n.id }}/">
+                                            read
+                                        </a>
+                                </span>
+                                {% endif %}
+                            </td>
+                                </tr >
+                            </tbody>
+                            {% empty %}
+                                no notification
+                            {% endfor %}
+                        {% if messages %}
+                            <script>
+                                alert("Maaf, feedback untuk transaksis ini telah diberikan sebelumnya!");
+                            </script>
+                        {% endif %}
+                        </table>
+                        <!-- .panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                </div>
+                    <div class="panel-body">
+                            <!-- Modal -->
+                        {% for m in id %}
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title" id="myModalLabel">Write a Feedback</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="stars">
+                                                <form role="form" method="POST" id="formFeedback"
+                                                      action="{% url 'feedbacks' m.kode_pinjam.kode_pinjam %}" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="form-type" value="feedback_forms">
+                                                    <input type="hidden" name="kode_pinjam" id="kode_pinjam" value="{{ m.kode_pinjam.kode_pinjam }}">
+                                                    <label>Berikan rating pelayanan: </label>
+                                                    <div class="form-group" id="feedback-form" style="width: 280px; ">
+                                                        <input class="star star-5" id="star-5" type="radio" name="star" value="1"/>
+                                                        <label class="star star-5" for="star-5"></label>
+                                                        <input class="star star-4" id="star-4" type="radio" name="star" value="2"/>
+                                                        <label class="star star-4" for="star-4"></label>
+                                                        <input class="star star-3" id="star-3" type="radio" name="star" value="3"/>
+                                                        <label class="star star-3" for="star-3"></label>
+                                                        <input class="star star-2" id="star-2" type="radio" name="star" value="4"/>
+                                                        <label class="star star-2" for="star-2"></label>
+                                                        <input class="star star-1" id="star-1" type="radio" name="star" value="5"/>
+                                                        <label class="star star-1"  for="star-1"></label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label> Tuliskan pesan (Optional): </label>
+                                                        <input type="text" name="messages" class="form-control" placeholder="Berikan pendapat anda"></input>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                    <!-- /.modal-content -->
+                                                    </div>
+                                <!-- /.modal-dialog -->
+                                    </div>
+                            <!-- /.modal -->
+                                </div>
+                <!-- /.row -->
+                            </div>
+                        {% endfor %}
+        <script>
+            $("[data-toggle=popover]")
+                    .popover()
+        </script>
+    {% endblock %}

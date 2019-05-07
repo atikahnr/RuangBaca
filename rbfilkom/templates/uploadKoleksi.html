@@ -1,0 +1,52 @@
+{% extends request.user.is_superuser|yesno:"base.html,staff_base.html" %}
+
+    {% load static %}
+    {% block content %}
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12" style="margin: 50px">
+                        <h1>Upload Data Koleksi Ruang Baca FILKOM UB</h1>
+                        <div class="col-lg-10">
+                        <form action="." method="POST" class="form-horizontal" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <h3 class="download-text font-weight-light"><i class="fas fa-file-download"></i> Download template <a href="{% static 'file/templateDataKoleksiRBFILKOM.xls' %}" download>disini</a>
+                                </h3>
+                            <div class="form-group">
+                                <div class="col-lg-10">
+                                    <label><i class="fas fa-file-upload"></i> Upload file (sesuai template)</label>
+                                </div>
+                                    <form action="." method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <div class="col-lg-4">
+                                        <input type="file" name="fileKoleksi" accept=".xls,.xlsx">
+                                        </div>
+                                    <div class="col-lg-5">
+                                        <button type="submit" class="btn btn-default btn-sm">
+                                            <span class="glyphicon glyphicon-upload"></span> Upload
+                                        </button>
+                                    </div>
+                                    </form>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                    <!-- /.col-lg-12 -->
+            </div>
+                <!-- /.row -->
+            <div class="col-lg-5">
+            <br>
+                {% if messages %}
+                        <ul class="list-unstyled messages">
+                        {% for message in messages %}
+                          <div class="alert alert-danger">
+                                <a class="close" href="#" data-dismiss="alert">×</a>
+                          {{ message }}
+                          </div>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+            </div>
+            </div>
+        </div>
+    {% endblock %}

@@ -1,0 +1,217 @@
+{% extends request.user.is_superuser|yesno:"base.html,staff_base.html" %}
+
+        {% load static %}
+        <!-- DataTables CSS -->
+        <link href="{% static 'vendor/datatables-plugins/dataTables.bootstrap.css' %}" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.css"/>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.18/datatables.min.js"></script>
+        {% load static %}
+        <!-- DataTables Responsive CSS -->
+        <link href="{% static 'vendor/datatables-responsive/dataTables.responsive.css' %}" rel="stylesheet">
+
+        {% block content %}
+             <div id="page-wrapper">
+                <div class="container-fluid">
+                                <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Ruang Baca FILKOM UB</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-list fa-fw"></i>Jenis Koleksi
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <button class="btn-primary" onclick="window.location.href='{% url 'tambahJenisKoleksi' %}'"><i class="fa fa-plus"></i>Tambah Data Jenis Koleksi</button>
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Kode Jenis Koleksi</th>
+                                        <th>Nama Jenis Koleksi Mahasiswa</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                        {% for jk in kode_koleksi %}
+                                        <form role="form" action="{% url 'daftarJenisKoleksi' %}" method="POST" id="jk">
+                                            {% csrf_token %}
+                                              <input type="hidden" name="form-type" value="jk_forms" />
+                                            <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ jk.kode_koleksi }} <input type="hidden" name="kode_koleksi" value="{{ jk.kode_koleksi }}"/></td>
+                                            <td>{{ jk.nama_jenis_koleksi }} <input type="hidden" name="nama_jenis_koleksi" value="{{ jk.nama_jenis_koleksi }}"/></td>
+                                            <td><button type="submit"  name="change" class="btn-success"><i class="fa fa-pencil"></i></button> </td>
+                                            <td><button type="submit" name="delete" class="btn-danger"><i class="fa fa-minus"></i></button> </td>
+                                        </tr>
+                                        </form>
+                                        {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                            <!-- /.table-responsive -->
+                        </div>
+
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-list fa-fw"></i>Sumber Koleksi
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <button class="btn-primary" onclick="window.location.href='{% url 'tambahSumberKoleksi' %}'"><i class="fa fa-plus"></i>Tambah Data Sumber Koleksi</button>
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Kode Sumber Koleksi</th>
+                                        <th>Nama Sumber Koleksi</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for sk in kode_sumber %}
+                                        <form role="form" action="{% url 'daftarJenisKoleksi' %}" method="POST" id="jk">
+                                        {% csrf_token %}
+                                            <input type="hidden" name="form-type" value="sk_forms" />
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ sk.kode_sumber }} <input type="hidden" name="kode_sumber" value="{{ sk.kode_sumber }}"/></td></td>
+                                                <td>{{ sk.nama_sumber_koleksi }} <input type="hidden" name="nama_sumber_koleksi" value="{{ sk.nama_sumber_koleksi }}"/></td></td>
+                                                <td><button type="submit"  name="change" class="btn-success"><i class="fa fa-pencil"></i></button> </td>
+                                                <td><button type="submit" name="delete" class="btn-danger"><i class="fa fa-minus"></i></button> </td>
+                                            </tr>
+                                        </form>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                            <!-- /.table-responsive -->
+                        </div>
+
+                        <!-- /.panel-body -->
+                    </div>
+                </div>
+            <div class="col-lg-12">
+                    <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-list fa-fw"></i>Topik Koleksi
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <button class="btn-primary" onclick="window.location.href='{% url 'tambahTopikKoleksi' %}'"><i class="fa fa-plus"></i>Tambah Data Topik Koleksi</button>
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Kode Topik Koleksi</th>
+                                        <th>Nama Topik Koleksi</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for tk in kode_topik %}
+                                        <form role="form" action="{% url 'daftarJenisKoleksi' %}" method="POST" id="tk">
+                                        {% csrf_token %}
+                                            <input type="hidden" name="form-type" value="tk_forms" />
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+                                                <td>{{ tk.kode_topik }} <input type="hidden" name="kode_topik" value="{{ tk.kode_topik }}" /></td>
+                                                <td>{{ tk.nama_topik_koleksi }} <input type="hidden" name="nama_topik_koleksi" value="{{ tk.nama_topik_koleksi }}" /></td>
+                                                <td><button type="submit"  name="change" class="btn-success"><i class="fa fa-pencil"></i></button> </td>
+                                                <td><button type="submit" name="delete" class="btn-danger"><i class="fa fa-minus"></i></button> </td>
+                                            </tr>
+                                        </form>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                            <!-- /.table-responsive -->
+                        </div>
+
+                        <!-- /.panel-body -->
+                    </div>
+                    <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-list fa-fw"></i>Bahasa Koleksi
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <button class="btn-primary" onclick="window.location.href='{% url 'tambahBahasaKoleksi' %}'"><i class="fa fa-plus"></i>Tambah Data Bahasa Koleksi</button>
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Kode Bahasa Koleksi</th>
+                                        <th>Nama Bahasa Koleksi</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for bk in kode_bahasa %}
+                                        <form role="form" action="{% url 'daftarJenisKoleksi' %}" method="POST" id="bk">
+                                        {% csrf_token %}
+                                            <input type="hidden" name="form-type" value="bk_forms" />
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ bk.kode_bahasa }} <input type="hidden" name="kode_bahasa" value="{{ bk.kode_bahasa }}" /></td>
+                                        <td>{{ bk.nama_bahasa_koleksi }} <input type="hidden" name="nama_bahasa_koleksi" value="{{ bk.nama_bahasa_koleksi }}" /></td>
+                                        <td><button type="submit"  name="change" class="btn-success"><i class="fa fa-pencil"></i></button> </td>
+                                        <td><button type="submit" name="delete" class="btn-danger"><i class="fa fa-minus"></i></button> </td>
+                                    </tr>
+                                        </form>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                            <!-- /.table-responsive -->
+                        </div>
+
+                        <!-- /.panel-body -->
+                    </div>
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+                </div>
+            <!-- /.container-fluid -->
+            </div>
+        {% endblock %}
+{% load static %}
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+        var table = $('#dataTables-example').DataTable( {
+        "ajax": "data/arrays.txt",
+        "columnDefs": [ {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button>edit</button>"
+        } ]
+    } );
+
+    $('#dataTables-example').on( 'click', 'button', function () {
+        var data = table.row( $(this).parents('tr') ).data();
+        alert( data[0] +"'s salary is: "+ data[ 5 ] );
+    } );
+    });
+    </script>
+
+

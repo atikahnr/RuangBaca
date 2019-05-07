@@ -1,0 +1,91 @@
+{% extends request.user.is_superuser|yesno:"base.html,staff_base.html" %}
+
+        {% block content %}
+             <div id="page-wrapper">
+                <div class="container-fluid">
+                                <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Daftar Denda Ruang Baca FILKOM UB</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-8">
+                            <form role="form" action="{% url 'daftarDenda' %}" method="POST">
+                                {% csrf_token %}
+                                <label>Fungsi Denda</label>
+                                <label class="switch">
+                                    {% if status is False %}
+                                        <input type="checkbox" name="set_denda" id="set_denda" value="{{ status }}">
+                                        <span class="slider round"></span>
+                                    {% elif status is True %}
+                                        <input type="checkbox" name="set_denda" id="set_denda" value="{{ status }}" checked>
+                                        <span class="slider round"></span>
+                                    {% endif %}
+                                </label>
+                            </form>
+                        </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-default" id="panelID">
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="pinjam-tabel">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Kode Transaksi</th>
+                                        <th>NIM Peminjam</th>
+                                        <th>Kode Eksamplar</th>
+                                        <th>Judul Koleksi</th>
+                                        <th>Tanggal Pinjam</th>
+                                        <th>Tanggal Kembali</th>
+                                        <th>Status Denda</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in denda %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ i.kode_transaksi.kode_pinjam }}</td>
+                                        <td>{{ i.kode_transaksi.nim.nim }}</td>
+                                        <td class="center">{{ i.kode_transaksi.kode_eksamplar.kode_eksamplar }}</td>
+                                        <td class="center">{{ i.kode_transaksi.kode_eksamplar.judul }}</td>
+                                        <td>{{ i.kode_transaksi.tanggal_pinjam }}</td>
+                                        <td>{{ i.kode_transaksi.tanggal_kembali }}</td>
+                                        <td>{{ i.status_denda }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+                </div>
+            <!-- /.container-fluid -->
+            </div>
+        {% load static %}
+        <script>
+            $(document).ready(function() {
+                $('#pinjam-tabel').DataTable({
+                    responsive: true
+                });
+                $('#set_denda').change(function(evt) {
+                    var denda_value = $(this).val();
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url 'daftarDenda' %}",
+                        dataType: 'json',
+                        data: {"data": JSON.stringify(denda_value)}
+                    });
+                });
+            });
+        </script>
+        {% endblock %}
+
